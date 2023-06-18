@@ -16,7 +16,6 @@ const ExpenseForm = (props) => {
   const inputChangeHandler = (key, value) => {
     if (key === 'title') {
       setIsTitleTouched(true);
-      console.log(value);
       if (value === '') {
         setIsTitleValid(false);
       } else {

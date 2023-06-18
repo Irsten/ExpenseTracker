@@ -18,6 +18,8 @@ const INITIAL_EXPENSES = [
 const App = () => {
   const [expenses, setExpenses] = useState(INITIAL_EXPENSES);
 
+  const lastId = Math.max(...expenses.map((item) => item.id));
+
   const addExpenseHandler = (newExpense) => {
     setExpenses((prevExpenses) => {
       return [newExpense, ...prevExpenses];
@@ -26,7 +28,7 @@ const App = () => {
 
   return (
     <div>
-      <NewExpense onAddExpense={addExpenseHandler} id={expenses.length - 1} />
+      <NewExpense onAddExpense={addExpenseHandler} id={lastId} />
       <Expenses items={expenses} />;
     </div>
   );
