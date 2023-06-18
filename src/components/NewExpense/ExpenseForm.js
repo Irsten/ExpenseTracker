@@ -6,12 +6,38 @@ const ExpenseForm = (props) => {
   const [enteredAmount, setEnteredAmount] = useState('');
   const [enteredDate, setEnteredDate] = useState('');
 
+  const [isTitleValid, setIsTitleValid] = useState(false);
+  const [isAmountValid, setIsAmountValid] = useState(false);
+  const [isDateValid, setIsDateValid] = useState(false);
+  const [isTitleTouched, setIsTitleTouched] = useState(false);
+  const [isAmountTouched, setIsAmountTouched] = useState(false);
+  const [isDateTouched, setIsDateTouched] = useState(false);
+
   const inputChangeHandler = (key, value) => {
     if (key === 'title') {
+      setIsTitleTouched(true);
+      console.log(value);
+      if (value === '') {
+        setIsTitleValid(false);
+      } else {
+        setIsTitleValid(true);
+      }
       setEnteredTitle(value);
     } else if (key === 'amount') {
+      setIsAmountTouched(true);
+      if (value === '') {
+        setIsAmountValid(false);
+      } else {
+        setIsAmountValid(true);
+      }
       setEnteredAmount(value);
     } else {
+      setIsDateTouched(true);
+      if (!value) {
+        setIsDateValid(false);
+      } else {
+        setIsDateValid(true);
+      }
       setEnteredDate(value);
     }
   };
@@ -19,17 +45,27 @@ const ExpenseForm = (props) => {
   const submitHandler = (event) => {
     event.preventDefault();
 
-    const expenseData = {
-      title: enteredTitle,
-      amount: +enteredAmount,
-      date: new Date(enteredDate),
-    };
+    setIsTitleTouched(true);
+    setIsAmountTouched(true);
+    setIsDateTouched(true);
 
-    props.onSaveExpenseData(expenseData);
-    setEnteredTitle('');
-    setEnteredAmount('');
-    setEnteredDate('');
+    if (enteredTitle !== '' && enteredAmount !== '' && enteredDate !== '') {
+      const expenseData = {
+        title: enteredTitle,
+        amount: +enteredAmount,
+        date: new Date(enteredDate),
+      };
+
+      props.onSaveExpenseData(expenseData);
+      setEnteredTitle('');
+      setEnteredAmount('');
+      setEnteredDate('');
+    }
   };
+
+  const showTitleError = !isTitleValid && isTitleTouched;
+  const showAmountError = !isAmountValid && isAmountTouched;
+  const showDateError = !isDateValid && isDateTouched;
 
   return (
     <form onSubmit={submitHandler}>
@@ -43,6 +79,7 @@ const ExpenseForm = (props) => {
               inputChangeHandler('title', event.target.value)
             }
           />
+          {showTitleError && <p>Title is not valid!</p>}
         </div>
         <div className='new-expense__control'>
           <label>Amount</label>
@@ -55,6 +92,7 @@ const ExpenseForm = (props) => {
               inputChangeHandler('amount', event.target.value)
             }
           />
+          {showAmountError && <p>Amount is not valid!</p>}
         </div>
         <div className='new-expense__control'>
           <label>Date</label>
@@ -65,6 +103,7 @@ const ExpenseForm = (props) => {
             value={enteredDate}
             onChange={(event) => inputChangeHandler('date', event.target.value)}
           />
+          {showDateError && <p>Date is not valid!</p>}
         </div>
       </div>
       <div className='new-expense__actions'>

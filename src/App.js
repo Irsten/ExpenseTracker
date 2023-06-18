@@ -26,8 +26,8 @@ const App = () => {
 
   return (
     <div>
-      <NewExpense onAddExpense={addExpenseHandler} />
-      <Expenses items={expenses} id={expenses[expenses.length - 1].id} />;
+      <NewExpense onAddExpense={addExpenseHandler} id={expenses.length - 1} />
+      <Expenses items={expenses} />;
     </div>
   );
 };
