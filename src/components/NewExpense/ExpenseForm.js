@@ -67,23 +67,39 @@ const ExpenseForm = (props) => {
   const showAmountError = !isAmountValid && isAmountTouched;
   const showDateError = !isDateValid && isDateTouched;
 
+  const invInput = 'new-expense__invalid-input';
+
   return (
     <form onSubmit={submitHandler}>
       <div className='new-expense__controls'>
         <div className='new-expense__control'>
           <label>Title</label>
           <input
+            className={
+              showTitleError
+                ? 'new-expense__invalid-input'
+                : 'new-expense__input'
+            }
             type='text'
             value={enteredTitle}
             onChange={(event) =>
               inputChangeHandler('title', event.target.value)
             }
           />
-          {showTitleError && <p>Title is not valid!</p>}
+          {showTitleError && (
+            <label className='new-expense__invalid-input__feedback'>
+              Title is not valid!
+            </label>
+          )}
         </div>
         <div className='new-expense__control'>
           <label>Amount</label>
           <input
+            className={
+              showAmountError
+                ? 'new-expense__invalid-input'
+                : 'new-expense__input'
+            }
             type='number'
             min='0.01'
             step='0.01'
@@ -92,18 +108,31 @@ const ExpenseForm = (props) => {
               inputChangeHandler('amount', event.target.value)
             }
           />
-          {showAmountError && <p>Amount is not valid!</p>}
+          {showAmountError && (
+            <label className='new-expense__invalid-input__feedback'>
+              Amount is not valid!
+            </label>
+          )}
         </div>
         <div className='new-expense__control'>
           <label>Date</label>
           <input
+            className={
+              showDateError
+                ? 'new-expense__invalid-input'
+                : 'new-expense__input'
+            }
             type='date'
             min='2019-01-01'
             max='2023-12-31'
             value={enteredDate}
             onChange={(event) => inputChangeHandler('date', event.target.value)}
           />
-          {showDateError && <p>Date is not valid!</p>}
+          {showDateError && (
+            <label className='new-expense__invalid-input__feedback'>
+              Date is not valid!
+            </label>
+          )}
         </div>
       </div>
       <div className='new-expense__actions'>
